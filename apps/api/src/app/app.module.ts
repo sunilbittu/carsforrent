@@ -8,7 +8,7 @@ import { join } from 'path'; // <- INSERT LINE
 @Module({
   imports: [// BEGIN INSERT
   ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'nx-app'),
+    rootPath: join(__dirname, '..', 'carsforrent'),
     exclude: ['/api*']
   })
   // END INSERT
