@@ -85,7 +85,7 @@
               "apps/carsforrent/src/favicon.ico",
               "apps/carsforrent/src/assets"
             ],
-            "styles": ["apps/carsforrent/src/styles.css"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css", "apps/carsforrent/src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -190,6 +190,7 @@
     }
   },
   "cli": {
+    "analytics": "5b078b76-3c15-4380-926e-a840f07d2baa",
     "defaultCollection": "@nrwl/angular",
     "packageManager": "npm"
   },

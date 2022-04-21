@@ -2,8 +2,8 @@
   "name": "carsforrent",
   "version": "0.0.0",
   "license": "MIT",
-  "engines" : {
-    "node" : "16.x"
+  "engines": {
+    "node": "16.x"
   },
   "scripts": {
     "ng": "nx",
@@ -15,20 +15,31 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^12.2.0",
+    "@angular/cdk": "^12.2.13",
     "@angular/common": "^12.2.0",
     "@angular/compiler": "^12.2.0",
     "@angular/core": "^12.2.0",
+    "@angular/flex-layout": "^13.0.0-beta.38",
     "@angular/forms": "^12.2.0",
+    "@angular/material": "^12.2.13",
     "@angular/platform-browser": "^12.2.0",
     "@angular/platform-browser-dynamic": "^12.2.0",
     "@angular/router": "^12.2.0",
     "@nestjs/common": "^7.0.0",
+    "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^7.0.0",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/mongoose": "^9.0.3",
+    "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/serve-static": "^2.2.2",
     "@nrwl/angular": "12.10.1",
+    "mongoose": "^6.3.0",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "~6.6.0",
+    "rxjs": "^7.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
   },
