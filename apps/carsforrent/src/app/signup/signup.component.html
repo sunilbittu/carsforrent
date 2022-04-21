@@ -1,0 +1,52 @@
+<section fxLayout="column" fxFlexAlign="stretch">
+  <div fxFlexAlign="center">
+    <p>Signup</p>
+    <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+      <mat-error *ngIf="!signupValid">
+        The username and password not matching
+      </mat-error>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Email"
+          [(ngModel)]="username"
+          name="username"
+          required
+          autocomplete="off"
+        />
+        <mat-error> Please provide a valid email address </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          autocomplete="off"
+        />
+        <mat-error> Please provide a valid password </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Confirm Password"
+          [(ngModel)]="cnfPassword"
+          name="cnfPassword"
+          required
+          autocomplete="off"
+        />
+        <mat-error> Please provide a valid Password </mat-error>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!signupForm.form.valid"
+      >
+        Sign Up
+      </button>
+    </form>
+  </div>
+</section>
