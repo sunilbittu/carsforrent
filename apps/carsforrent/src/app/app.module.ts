@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,6 +36,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { BookingsListComponent } from './bookings-list/bookings-list.component';
 import { CarsListComponent } from './cars-list/cars-list.component';
 import { CarsComponent } from './cars/cars.component';
+import { AddressDetailsComponent } from './address-details/address-details.component';
 
 @NgModule({
   declarations: [
@@ -56,8 +59,14 @@ import { CarsComponent } from './cars/cars.component';
     BookingsListComponent,
     CarsListComponent,
     CarsComponent,
+    AddressDetailsComponent,
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBPnDatU8GFmaTp3-rfJAKmjLS6bPMEjrY',
+      libraries: ['places'],
+    }),
+    MatGoogleMapsAutocompleteModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,

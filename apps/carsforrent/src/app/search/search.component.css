@@ -17,3 +17,11 @@ mat-tab-group {
 mat-tab-group p {
   padding-top: 20px;
 }
+
+autocomplete-container {
+  width: 350px;
+}
+
+mat-form-field {
+  padding-bottom: 20px;
+}

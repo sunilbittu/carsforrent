@@ -1,5 +1,30 @@
 <section fxLayout="column" fxFlexAlign="stretch">
   <div fxFlexAlign="center">
     <p>Search</p>
+    <div class="autocomplete-container" [ngStyle]="{ 'min-width.px': 400 }">
+      <mat-google-maps-autocomplete
+        [appearance]="appearance.OUTLINE"
+        (onAutocompleteSelected)="onAutocompleteSelected($event)"
+        (onLocationSelected)="onLocationSelected($event)"
+      >
+      </mat-google-maps-autocomplete>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" />
+          <input matEndDate placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="search()">
+        Search
+      </button>
+    </div>
   </div>
 </section>

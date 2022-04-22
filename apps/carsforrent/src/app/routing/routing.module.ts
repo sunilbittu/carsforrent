@@ -13,6 +13,7 @@ import { PaymentComponent } from '../payment/payment.component';
 import { UserDetailsComponent } from '../user-details/user-details.component';
 import { CarDetailsComponent } from '../car-details/car-details.component';
 import { CarsComponent } from '../cars/cars.component';
+import { AddressDetailsComponent } from '../address-details/address-details.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'user-details', component: UserDetailsComponent },
   { path: 'car-details', component: CarDetailsComponent },
   { path: 'cars', component: CarsComponent },
+  { path: 'address-details', component: AddressDetailsComponent },
 ];
 
 @NgModule({
