@@ -1,3 +1,9 @@
+@agm/core
+MIT
+
+@angular-material-extensions/google-maps-autocomplete
+MIT
+
 @angular/animations
 MIT
 
