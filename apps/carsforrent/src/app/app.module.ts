@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,23 @@ import { SignupComponent } from './signup/signup.component';
 import { SearchComponent } from './search/search.component';
 import { ResultsComponent } from './results/results.component';
 import { ReviewComponent } from './review/review.component';
+import { UsersComponent } from './users/users.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { PaymentComponent } from './payment/payment.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { CarDetailsComponent } from './car-details/car-details.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { BookingsListComponent } from './bookings-list/bookings-list.component';
+import { CarsListComponent } from './cars-list/cars-list.component';
+import { CarsComponent } from './cars/cars.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +47,15 @@ import { ReviewComponent } from './review/review.component';
     SearchComponent,
     ResultsComponent,
     ReviewComponent,
+    UsersComponent,
+    BookingsComponent,
+    PaymentComponent,
+    UserDetailsComponent,
+    CarDetailsComponent,
+    UsersListComponent,
+    BookingsListComponent,
+    CarsListComponent,
+    CarsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +65,15 @@ import { ReviewComponent } from './review/review.component';
     MaterialModule,
     FlexLayoutModule,
     RoutingModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
