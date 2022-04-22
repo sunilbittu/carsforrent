@@ -95,28 +95,15 @@
 
 "use strict";
 
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+/* eslint-disable @typescript-eslint/no-empty-function */
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const auth_service_1 = __webpack_require__(/*! ./auth/auth.service */ "./apps/api/src/app/auth/auth.service.ts");
-const jwt_auth_guard_1 = __webpack_require__(/*! ./auth/guards/jwt-auth.guard */ "./apps/api/src/app/auth/guards/jwt-auth.guard.ts");
-const local_auth_guard_1 = __webpack_require__(/*! ./auth/guards/local-auth.guard */ "./apps/api/src/app/auth/guards/local-auth.guard.ts");
 let AppController = class AppController {
-    constructor(authService) {
-        this.authService = authService;
-    }
+    constructor() { }
     root() {
         return { message: 'Welcome to api!' };
-    }
-    login(req) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.authService.login(req.user);
-        });
-    }
-    getProfile(req) {
-        return req.user;
     }
 };
 tslib_1.__decorate([
@@ -125,25 +112,9 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
 ], AppController.prototype, "root", null);
-tslib_1.__decorate([
-    common_1.UseGuards(local_auth_guard_1.LocalAuthGuard),
-    common_1.Post('auth/login'),
-    tslib_1.__param(0, common_1.Request()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", Promise)
-], AppController.prototype, "login", null);
-tslib_1.__decorate([
-    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
-    common_1.Get('profile'),
-    tslib_1.__param(0, common_1.Request()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
-], AppController.prototype, "getProfile", null);
 AppController = tslib_1.__decorate([
     common_1.Controller(),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _a : Object])
+    tslib_1.__metadata("design:paramtypes", [])
 ], AppController);
 exports.AppController = AppController;
 
@@ -170,7 +141,7 @@ const path_1 = __webpack_require__(/*! path */ "path");
 const app_controller_1 = __webpack_require__(/*! ./app.controller */ "./apps/api/src/app/app.controller.ts");
 const app_service_1 = __webpack_require__(/*! ./app.service */ "./apps/api/src/app/app.service.ts");
 const auth_module_1 = __webpack_require__(/*! ./auth/auth.module */ "./apps/api/src/app/auth/auth.module.ts");
-const users_module_1 = __webpack_require__(/*! ./users/users.module */ "./apps/api/src/app/users/users.module.ts");
+const user_module_1 = __webpack_require__(/*! ./user/user.module */ "./apps/api/src/app/user/user.module.ts");
 const geolocation_module_1 = __webpack_require__(/*! ./geolocation/geolocation.module */ "./apps/api/src/app/geolocation/geolocation.module.ts");
 let AppModule = class AppModule {
 };
@@ -186,7 +157,7 @@ AppModule = tslib_1.__decorate([
             }),
             mongoose_1.MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.irozl.mongodb.net/carsrent?retryWrites=true&w=majority', { useNewUrlParser: true }),
             auth_module_1.AuthModule,
-            users_module_1.UsersModule,
+            user_module_1.UserModule,
             geolocation_module_1.GeolocationModule,
         ],
         controllers: [app_controller_1.AppController],
@@ -224,6 +195,99 @@ exports.AppService = AppService;
 
 /***/ }),
 
+/***/ "./apps/api/src/app/auth/auth.controller.ts":
+/*!**************************************************!*\
+  !*** ./apps/api/src/app/auth/auth.controller.ts ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a, _b, _c, _d;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthController = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const auth_guard_1 = __webpack_require__(/*! @nestjs/passport/dist/auth.guard */ "@nestjs/passport/dist/auth.guard");
+const register_dto_1 = __webpack_require__(/*! ../user/register.dto */ "./apps/api/src/app/user/register.dto.ts");
+const user_service_1 = __webpack_require__(/*! ../user/user.service */ "./apps/api/src/app/user/user.service.ts");
+const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/api/src/app/auth/auth.service.ts");
+const login_dto_1 = __webpack_require__(/*! ./login.dto */ "./apps/api/src/app/auth/login.dto.ts");
+let AuthController = class AuthController {
+    constructor(userService, authService) {
+        this.userService = userService;
+        this.authService = authService;
+    }
+    hiddenInformation() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return 'hidden information';
+        });
+    }
+    publicInformation() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return 'this can be seen by anyone';
+        });
+    }
+    register(registerDTO) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.create(registerDTO);
+            const payload = {
+                email: user.email,
+                isAdmin: user.isAdmin,
+            };
+            const token = yield this.authService.signPayload(payload);
+            return { user, token };
+        });
+    }
+    login(loginDTO) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userService.findByLogin(loginDTO);
+            const payload = {
+                email: user.email,
+                isAdmin: user.isAdmin,
+            };
+            const token = yield this.authService.signPayload(payload);
+            return { user, token };
+        });
+    }
+};
+tslib_1.__decorate([
+    common_1.Get('/onlyauth'),
+    common_1.UseGuards(auth_guard_1.AuthGuard('jwt')),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], AuthController.prototype, "hiddenInformation", null);
+tslib_1.__decorate([
+    common_1.Get('/anyone'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], AuthController.prototype, "publicInformation", null);
+tslib_1.__decorate([
+    common_1.Post('register'),
+    tslib_1.__param(0, common_1.Body()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof register_dto_1.RegisterDTO !== "undefined" && register_dto_1.RegisterDTO) === "function" ? _a : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], AuthController.prototype, "register", null);
+tslib_1.__decorate([
+    common_1.Post('login'),
+    tslib_1.__param(0, common_1.Body()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof login_dto_1.LoginDTO !== "undefined" && login_dto_1.LoginDTO) === "function" ? _b : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], AuthController.prototype, "login", null);
+AuthController = tslib_1.__decorate([
+    common_1.Controller('auth'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof user_service_1.UserService !== "undefined" && user_service_1.UserService) === "function" ? _c : Object, typeof (_d = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _d : Object])
+], AuthController);
+exports.AuthController = AuthController;
+
+
+/***/ }),
+
 /***/ "./apps/api/src/app/auth/auth.module.ts":
 /*!**********************************************!*\
   !*** ./apps/api/src/app/auth/auth.module.ts ***!
@@ -237,27 +301,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const jwt_1 = __webpack_require__(/*! @nestjs/jwt */ "@nestjs/jwt");
-const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
-const users_module_1 = __webpack_require__(/*! ../users/users.module */ "./apps/api/src/app/users/users.module.ts");
+const user_module_1 = __webpack_require__(/*! ../user/user.module */ "./apps/api/src/app/user/user.module.ts");
+const auth_controller_1 = __webpack_require__(/*! ./auth.controller */ "./apps/api/src/app/auth/auth.controller.ts");
 const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/api/src/app/auth/auth.service.ts");
-const constants_1 = __webpack_require__(/*! ./constants */ "./apps/api/src/app/auth/constants.ts");
-const jwt_strategy_1 = __webpack_require__(/*! ./strategies/jwt.strategy */ "./apps/api/src/app/auth/strategies/jwt.strategy.ts");
-const local_strategy_1 = __webpack_require__(/*! ./strategies/local.strategy */ "./apps/api/src/app/auth/strategies/local.strategy.ts");
+const jwt_strategy_1 = __webpack_require__(/*! ./jwt.strategy */ "./apps/api/src/app/auth/jwt.strategy.ts");
 let AuthModule = class AuthModule {
 };
 AuthModule = tslib_1.__decorate([
     common_1.Module({
-        imports: [
-            users_module_1.UsersModule,
-            passport_1.PassportModule,
-            jwt_1.JwtModule.register({
-                secret: constants_1.jwtConstants.secret,
-                signOptions: { expiresIn: '60s' },
-            }),
-        ],
-        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],
-        exports: [auth_service_1.AuthService],
+        imports: [user_module_1.UserModule],
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
+        controllers: [auth_controller_1.AuthController],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;
@@ -274,155 +328,41 @@ exports.AuthModule = AuthModule;
 
 "use strict";
 
-var _a, _b;
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const users_service_1 = __webpack_require__(/*! ../users/users.service */ "./apps/api/src/app/users/users.service.ts");
-const jwt_1 = __webpack_require__(/*! @nestjs/jwt */ "@nestjs/jwt");
+const jsonwebtoken_1 = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
+const user_service_1 = __webpack_require__(/*! ../user/user.service */ "./apps/api/src/app/user/user.service.ts");
 let AuthService = class AuthService {
-    constructor(usersService, jwtService) {
-        this.usersService = usersService;
-        this.jwtService = jwtService;
+    constructor(userService) {
+        this.userService = userService;
     }
-    validateUser(username, pass) {
+    signPayload(payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const user = yield this.usersService.findOne(username);
-            if (user && user.password === pass) {
-                const { password } = user, result = tslib_1.__rest(user, ["password"]);
-                return result;
-            }
-            return null;
+            return jsonwebtoken_1.sign(payload, 'abcdefg12345WWW', { expiresIn: '7d' });
         });
     }
-    login(user) {
+    validateUser(payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const payload = { username: user.username, sub: user.userId };
-            return {
-                access_token: this.jwtService.sign(payload),
-            };
+            return yield this.userService.findByPayload(payload);
         });
     }
 };
 AuthService = tslib_1.__decorate([
     common_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof users_service_1.UsersService !== "undefined" && users_service_1.UsersService) === "function" ? _a : Object, typeof (_b = typeof jwt_1.JwtService !== "undefined" && jwt_1.JwtService) === "function" ? _b : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof user_service_1.UserService !== "undefined" && user_service_1.UserService) === "function" ? _a : Object])
 ], AuthService);
 exports.AuthService = AuthService;
 
 
 /***/ }),
 
-/***/ "./apps/api/src/app/auth/constants.ts":
-/*!********************************************!*\
-  !*** ./apps/api/src/app/auth/constants.ts ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.jwtConstants = void 0;
-exports.jwtConstants = {
-    secret: 'secretKey',
-};
-
-
-/***/ }),
-
-/***/ "./apps/api/src/app/auth/guards/jwt-auth.guard.ts":
-/*!********************************************************!*\
-  !*** ./apps/api/src/app/auth/guards/jwt-auth.guard.ts ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.JwtAuthGuard = void 0;
-const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
-let JwtAuthGuard = class JwtAuthGuard extends passport_1.AuthGuard('jwt') {
-};
-JwtAuthGuard = tslib_1.__decorate([
-    common_1.Injectable()
-], JwtAuthGuard);
-exports.JwtAuthGuard = JwtAuthGuard;
-
-
-/***/ }),
-
-/***/ "./apps/api/src/app/auth/guards/local-auth.guard.ts":
-/*!**********************************************************!*\
-  !*** ./apps/api/src/app/auth/guards/local-auth.guard.ts ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalAuthGuard = void 0;
-const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
-let LocalAuthGuard = class LocalAuthGuard extends passport_1.AuthGuard('local') {
-};
-LocalAuthGuard = tslib_1.__decorate([
-    common_1.Injectable()
-], LocalAuthGuard);
-exports.LocalAuthGuard = LocalAuthGuard;
-
-
-/***/ }),
-
-/***/ "./apps/api/src/app/auth/strategies/jwt.strategy.ts":
-/*!**********************************************************!*\
-  !*** ./apps/api/src/app/auth/strategies/jwt.strategy.ts ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.JwtStrategy = void 0;
-const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
-const passport_jwt_1 = __webpack_require__(/*! passport-jwt */ "passport-jwt");
-const constants_1 = __webpack_require__(/*! ../constants */ "./apps/api/src/app/auth/constants.ts");
-let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport_jwt_1.Strategy) {
-    constructor() {
-        super({
-            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: constants_1.jwtConstants.secret,
-        });
-    }
-    validate(payload) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return { userId: payload.sub, username: payload.username };
-        });
-    }
-};
-JwtStrategy = tslib_1.__decorate([
-    common_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [])
-], JwtStrategy);
-exports.JwtStrategy = JwtStrategy;
-
-
-/***/ }),
-
-/***/ "./apps/api/src/app/auth/strategies/local.strategy.ts":
-/*!************************************************************!*\
-  !*** ./apps/api/src/app/auth/strategies/local.strategy.ts ***!
-  \************************************************************/
+/***/ "./apps/api/src/app/auth/jwt.strategy.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/auth/jwt.strategy.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -430,32 +370,50 @@ exports.JwtStrategy = JwtStrategy;
 
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalStrategy = void 0;
+exports.JwtStrategy = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
-const passport_local_1 = __webpack_require__(/*! passport-local */ "passport-local");
-const auth_service_1 = __webpack_require__(/*! ../auth.service */ "./apps/api/src/app/auth/auth.service.ts");
-let LocalStrategy = class LocalStrategy extends passport_1.PassportStrategy(passport_local_1.Strategy) {
+const passport_jwt_1 = __webpack_require__(/*! passport-jwt */ "passport-jwt");
+const passport_jwt_2 = __webpack_require__(/*! passport-jwt */ "passport-jwt");
+const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/api/src/app/auth/auth.service.ts");
+let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport_jwt_2.Strategy) {
     constructor(authService) {
-        super();
+        super({
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: 'abcdefg12345WWW',
+        });
         this.authService = authService;
     }
-    validate(username, password) {
+    validate(payload, done) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const user = yield this.authService.validateUser(username, password);
+            const user = yield this.authService.validateUser(payload);
             if (!user) {
-                throw new common_1.UnauthorizedException();
+                return done(new common_1.HttpException('Unauthorized access', common_1.HttpStatus.UNAUTHORIZED), false);
             }
-            return user;
+            return done(null, user, payload.iat);
         });
     }
 };
-LocalStrategy = tslib_1.__decorate([
+JwtStrategy = tslib_1.__decorate([
     common_1.Injectable(),
     tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _a : Object])
-], LocalStrategy);
-exports.LocalStrategy = LocalStrategy;
+], JwtStrategy);
+exports.JwtStrategy = JwtStrategy;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/auth/login.dto.ts":
+/*!********************************************!*\
+  !*** ./apps/api/src/app/auth/login.dto.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /***/ }),
@@ -846,9 +804,9 @@ exports.GeoLocationSchema = mongoose_1.SchemaFactory.createForClass(locations);
 
 /***/ }),
 
-/***/ "./apps/api/src/app/users/users.module.ts":
+/***/ "./apps/api/src/app/models/user.schema.ts":
 /*!************************************************!*\
-  !*** ./apps/api/src/app/users/users.module.ts ***!
+  !*** ./apps/api/src/app/models/user.schema.ts ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -856,61 +814,147 @@ exports.GeoLocationSchema = mongoose_1.SchemaFactory.createForClass(locations);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersModule = void 0;
+exports.UserSchema = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const users_service_1 = __webpack_require__(/*! ./users.service */ "./apps/api/src/app/users/users.service.ts");
-let UsersModule = class UsersModule {
-};
-UsersModule = tslib_1.__decorate([
-    common_1.Module({
-        providers: [users_service_1.UsersService],
-        exports: [users_service_1.UsersService],
-    })
-], UsersModule);
-exports.UsersModule = UsersModule;
+const mongoose = __webpack_require__(/*! mongoose */ "mongoose");
+const bcrypt = __webpack_require__(/*! bcrypt */ "bcrypt");
+exports.UserSchema = new mongoose.Schema({
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    isAdmin: { type: Boolean, default: false },
+});
+exports.UserSchema.pre('save', function (next) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        try {
+            if (!this.isModified('password')) {
+                return next();
+            }
+            const hashed = yield bcrypt.hash(this['password'], 10);
+            this['password'] = hashed;
+            return next();
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+});
 
 
 /***/ }),
 
-/***/ "./apps/api/src/app/users/users.service.ts":
-/*!*************************************************!*\
-  !*** ./apps/api/src/app/users/users.service.ts ***!
-  \*************************************************/
+/***/ "./apps/api/src/app/user/register.dto.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/user/register.dto.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersService = void 0;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/user/user.module.ts":
+/*!**********************************************!*\
+  !*** ./apps/api/src/app/user/user.module.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserModule = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-let UsersService = class UsersService {
-    constructor() {
-        this.users = [
-            {
-                userId: 1,
-                username: 'john',
-                password: 'changeme',
-            },
-            {
-                userId: 2,
-                username: 'maria',
-                password: 'guess',
-            },
-        ];
+const user_service_1 = __webpack_require__(/*! ./user.service */ "./apps/api/src/app/user/user.service.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const user_schema_1 = __webpack_require__(/*! ../models/user.schema */ "./apps/api/src/app/models/user.schema.ts");
+let UserModule = class UserModule {
+};
+UserModule = tslib_1.__decorate([
+    common_1.Module({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: user_schema_1.UserSchema }]),
+        ],
+        providers: [user_service_1.UserService],
+        controllers: [],
+        exports: [user_service_1.UserService],
+    })
+], UserModule);
+exports.UserModule = UserModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/user/user.service.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/user/user.service.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const bcrypt = __webpack_require__(/*! bcrypt */ "bcrypt");
+let UserService = class UserService {
+    constructor(userModel) {
+        this.userModel = userModel;
     }
-    findOne(username) {
+    create(RegisterDTO) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.users.find((user) => user.username === username);
+            const { email } = RegisterDTO;
+            const user = yield this.userModel.findOne({ email });
+            if (user) {
+                throw new common_1.HttpException('user already exists', common_1.HttpStatus.BAD_REQUEST);
+            }
+            const createdUser = new this.userModel(RegisterDTO);
+            yield createdUser.save();
+            return this.sanitizeUser(createdUser);
         });
     }
+    findByPayload(payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const { email } = payload;
+            return yield this.userModel.findOne({ email });
+        });
+    }
+    findByLogin(UserDTO) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const { email, password } = UserDTO;
+            const user = yield this.userModel.findOne({ email });
+            if (!user) {
+                throw new common_1.HttpException('user doesnt exists', common_1.HttpStatus.BAD_REQUEST);
+            }
+            if (yield bcrypt.compare(password, user.password)) {
+                return this.sanitizeUser(user);
+            }
+            else {
+                throw new common_1.HttpException('invalid credential', common_1.HttpStatus.BAD_REQUEST);
+            }
+        });
+    }
+    sanitizeUser(user) {
+        const sanitized = user.toObject();
+        delete sanitized['password'];
+        return sanitized;
+    }
 };
-UsersService = tslib_1.__decorate([
-    common_1.Injectable()
-], UsersService);
-exports.UsersService = UsersService;
+UserService = tslib_1.__decorate([
+    common_1.Injectable(),
+    tslib_1.__param(0, mongoose_1.InjectModel('User')),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], UserService);
+exports.UserService = UserService;
 
 
 /***/ }),
@@ -994,17 +1038,6 @@ module.exports = require("@nestjs/core");
 
 /***/ }),
 
-/***/ "@nestjs/jwt":
-/*!******************************!*\
-  !*** external "@nestjs/jwt" ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("@nestjs/jwt");
-
-/***/ }),
-
 /***/ "@nestjs/mongoose":
 /*!***********************************!*\
   !*** external "@nestjs/mongoose" ***!
@@ -1027,6 +1060,17 @@ module.exports = require("@nestjs/passport");
 
 /***/ }),
 
+/***/ "@nestjs/passport/dist/auth.guard":
+/*!***************************************************!*\
+  !*** external "@nestjs/passport/dist/auth.guard" ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@nestjs/passport/dist/auth.guard");
+
+/***/ }),
+
 /***/ "@nestjs/serve-static":
 /*!***************************************!*\
   !*** external "@nestjs/serve-static" ***!
@@ -1035,6 +1079,28 @@ module.exports = require("@nestjs/passport");
 /***/ (function(module, exports) {
 
 module.exports = require("@nestjs/serve-static");
+
+/***/ }),
+
+/***/ "bcrypt":
+/*!*************************!*\
+  !*** external "bcrypt" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("bcrypt");
+
+/***/ }),
+
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("jsonwebtoken");
 
 /***/ }),
 
@@ -1057,17 +1123,6 @@ module.exports = require("mongoose");
 /***/ (function(module, exports) {
 
 module.exports = require("passport-jwt");
-
-/***/ }),
-
-/***/ "passport-local":
-/*!*********************************!*\
-  !*** external "passport-local" ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("passport-local");
 
 /***/ }),
 
