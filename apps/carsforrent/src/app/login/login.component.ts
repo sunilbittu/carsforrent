@@ -23,4 +23,8 @@ export class LoginComponent {
       this.loginValid = false;
     }
   }
+
+  public onSignup(): void {
+    this._router.navigateByUrl('/signup');
+  }
 }

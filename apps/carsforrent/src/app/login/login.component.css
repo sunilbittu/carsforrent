@@ -22,3 +22,10 @@ mat-form-field {
   display: block;
   width: 250px;
 }
+
+.action-buttons button {
+  margin-right: 16px;
+}
+.action-buttons button:last-child {
+  margin-right: 0px;
+}

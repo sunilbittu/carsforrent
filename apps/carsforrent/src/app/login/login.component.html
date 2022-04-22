@@ -28,13 +28,18 @@
         />
         <mat-error> Please provide a valid password </mat-error>
       </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="!loginForm.form.valid"
-      >
-        Login
-      </button>
+      <div class="action-buttons">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!loginForm.form.valid"
+        >
+          Login
+        </button>
+        <button mat-raised-button color="primary" (click)="onSignup()">
+          Sign Up
+        </button>
+      </div>
     </form>
   </div>
 </section>
