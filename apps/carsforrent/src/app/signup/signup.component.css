@@ -21,3 +21,7 @@ mat-form-field {
   display: block;
   width: 250px;
 }
+mat-checkbox {
+  display: block;
+  margin-bottom: 20px;
+}

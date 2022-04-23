@@ -5,6 +5,7 @@
       <mat-error *ngIf="!signupValid">
         The username and password not matching
       </mat-error>
+      <mat-error *ngIf="!pwdMatch"> The passwords are not matching </mat-error>
       <mat-form-field>
         <input
           matInput
@@ -40,6 +41,7 @@
         />
         <mat-error> Please provide a valid Password </mat-error>
       </mat-form-field>
+      <mat-checkbox (change)="OnChange($event)">Admin</mat-checkbox>
       <button
         mat-raised-button
         color="primary"

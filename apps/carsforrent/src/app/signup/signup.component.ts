@@ -8,13 +8,21 @@ import { Component } from '@angular/core';
 })
 export class SignupComponent {
   public signupValid = true;
+  public pwdMatch = true;
+  public isAdmin = false;
   public username = '';
   public password = '';
   public cnfPassword = '';
   constructor() {}
 
+  OnChange($event) {
+    this.isAdmin = $event.checked;
+  }
   public onSubmit(): void {
-    /* signup functionality */
-    console.log('signup', this.username, this.password, this.cnfPassword);
+    if (this.password !== this.cnfPassword) {
+      this.pwdMatch = false;
+    } else {
+      this.pwdMatch = true;
+    }
   }
 }
