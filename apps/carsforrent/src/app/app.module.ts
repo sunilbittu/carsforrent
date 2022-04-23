@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -38,6 +39,10 @@ import { CarsListComponent } from './cars-list/cars-list.component';
 import { CarsComponent } from './cars/cars.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +70,11 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBPnDatU8GFmaTp3-rfJAKmjLS6bPMEjrY',
       libraries: ['places'],
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      },
     }),
     MatGoogleMapsAutocompleteModule,
     BrowserModule,

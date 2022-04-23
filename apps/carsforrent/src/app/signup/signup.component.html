@@ -1,51 +1,84 @@
 <section fxLayout="column" fxFlexAlign="stretch">
   <div fxFlexAlign="center">
     <p>Signup</p>
-    <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
-      <mat-error *ngIf="!signupValid">
-        The username and password not matching
-      </mat-error>
-      <mat-error *ngIf="!pwdMatch"> The passwords are not matching </mat-error>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
       <mat-form-field>
         <input
+          type="email"
           matInput
           placeholder="Email"
-          [(ngModel)]="username"
-          name="username"
-          required
-          autocomplete="off"
+          formControlName="email"
         />
-        <mat-error> Please provide a valid email address </mat-error>
+        <mat-error
+          *ngIf="
+            this.registerForm.get('email')?.touched &&
+            this.registerForm.get('email')?.hasError('required')
+          "
+        >
+          Email is required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            this.registerForm.get('email')?.touched &&
+            this.registerForm.get('email')?.hasError('email')
+          "
+        >
+          Email must be a valid Email</mat-error
+        >
       </mat-form-field>
       <mat-form-field>
         <input
-          matInput
           type="password"
+          matInput
           placeholder="Password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          autocomplete="off"
+          formControlName="password"
         />
-        <mat-error> Please provide a valid password </mat-error>
+        <mat-error
+          *ngIf="
+            this.registerForm.get('password')?.touched &&
+            this.registerForm.get('password')?.hasError('required')
+          "
+        >
+          Password is required</mat-error
+        >
       </mat-form-field>
       <mat-form-field>
         <input
-          matInput
           type="password"
-          placeholder="Confirm Password"
-          [(ngModel)]="cnfPassword"
-          name="cnfPassword"
-          required
-          autocomplete="off"
+          matInput
+          placeholder="Password Confirmation"
+          formControlName="passwordConfirm"
         />
-        <mat-error> Please provide a valid Password </mat-error>
+        <mat-error
+          *ngIf="
+            this.registerForm.get('passwordConfirm')?.touched &&
+            this.registerForm.get('passwordConfirm')?.hasError('required')
+          "
+        >
+          Password Confirmation is required</mat-error
+        >
       </mat-form-field>
-      <mat-checkbox (change)="OnChange($event)">Admin</mat-checkbox>
+      <mat-error
+        *ngIf="
+          this.registerForm.get('passwordConfirm')?.dirty &&
+          this.registerForm.hasError('passwordsNotMatching')
+        "
+      >
+        Passwords are not matching!</mat-error
+      >
+      <div class="form-checkbox">
+        <input
+          type="checkbox"
+          formControlName="isAdmin"
+          id="isAdmin"
+          class="form-check-input"
+        />
+        <label for="isAdmin" class="form-check-label">Admin</label>
+      </div>
       <button
         mat-raised-button
         color="primary"
-        [disabled]="!signupForm.form.valid"
+        [disabled]="!registerForm.valid"
       >
         Sign Up
       </button>

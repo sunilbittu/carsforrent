@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth-service/auth.service';
 
 @Component({
   selector: 'carsforrent-login',
@@ -8,19 +11,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  public loginValid = true;
-  public username = '';
-  public password = '';
+  errorExist = false;
+  loginForm: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    password: new FormControl(null, [Validators.required]),
+  });
 
-  constructor(private _router: Router) {}
+  constructor(private authService: AuthService, private _router: Router) {}
 
-  public onSubmit(): void {
-    if (this.username === 'admin' && this.password === 'admin') {
-      this.loginValid = true;
-      /* navigate to search */
-      this._router.navigateByUrl('/search');
-    } else {
-      this.loginValid = false;
+  login() {
+    if (!this.loginForm.valid) {
+      return;
+    }
+    try {
+      const result = this.authService
+        .login(this.loginForm.value)
+        .pipe()
+        .subscribe();
+      /* .pipe(
+          tap(() => {
+            this._router.navigateByUrl('/');
+          })
+        ) */
+      console.log(result);
+    } catch (error) {
+      this.errorExist = true;
     }
   }
 

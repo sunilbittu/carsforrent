@@ -1,38 +1,54 @@
 <section fxLayout="column" fxFlexAlign="stretch">
   <div fxFlexAlign="center">
     <p>Login</p>
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-      <mat-error *ngIf="!loginValid">
-        The username and password were not recognized
-      </mat-error>
+    <mat-error *ngIf="errorExist">Invalid credentials</mat-error>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
       <mat-form-field>
         <input
+          type="email"
           matInput
           placeholder="Email"
-          [(ngModel)]="username"
-          name="username"
-          required
-          autocomplete="off"
+          formControlName="email"
         />
-        <mat-error> Please provide a valid email address </mat-error>
+        <mat-error
+          *ngIf="
+            this.loginForm.get('email')?.touched &&
+            this.loginForm.get('email')?.hasError('required')
+          "
+        >
+          Email is required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            this.loginForm.get('email')?.touched &&
+            this.loginForm.get('email')?.hasError('email')
+          "
+        >
+          Email must be a valid Email</mat-error
+        >
       </mat-form-field>
       <mat-form-field>
         <input
-          matInput
           type="password"
+          matInput
           placeholder="Password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          autocomplete="off"
+          formControlName="password"
         />
-        <mat-error> Please provide a valid password </mat-error>
+        <mat-error
+          *ngIf="
+            this.loginForm.get('password')?.touched &&
+            this.loginForm.get('password')?.hasError('required')
+          "
+        >
+          Password is required</mat-error
+        >
       </mat-form-field>
       <div class="action-buttons">
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!loginForm.form.valid"
+          type="submit"
+          [disabled]="!loginForm.valid"
         >
           Login
         </button>

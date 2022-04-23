@@ -9,8 +9,21 @@
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <a routerLink="/login">Login</a>
+      <li *ngIf="isAdmin">
+        <mat-list-item [matMenuTriggerFor]="menu">
+          <a matline>My Profile</a>
+        </mat-list-item>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onSidenavClose()">Users</button>
+          <button mat-menu-item (click)="onSidenavClose()">Cars</button>
+          <button mat-menu-item (click)="onSidenavClose()">Bookings</button>
+        </mat-menu>
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a routerLink="/login">LogIn</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a (click)="onLogout()">Logout</a>
       </li>
     </ul>
   </div>
