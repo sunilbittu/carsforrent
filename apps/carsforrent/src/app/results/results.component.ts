@@ -27,14 +27,12 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit() {
     this.carsService.getAllCars().subscribe((res) => {
-      console.log(res);
       this.cars = res;
       this.getAvailableCars();
     });
   }
   getAvailableCars() {
     this.dates = JSON.parse(localStorage.getItem('dates') || '{}');
-    console.log(this.dates);
     let startWeek = moment(this.dates.start); // 0 -- 6
     const endWeek = moment(this.dates.end); // 6 0
     const date: any = [];
@@ -45,7 +43,6 @@ export class ResultsComponent implements OnInit {
       startWeek = moment(startWeek).add(1, 'days');
     }
     const unique = _.uniqBy(date);
-    console.log('startWeek ===> ', date, unique, weekArray);
     const arr: any = [];
     for (let i = 0; i < this.cars.length; i++) {
       for (let j = 0; j < this.cars[i].bookedTimeSlotsFrom.length; j++) {
@@ -63,7 +60,6 @@ export class ResultsComponent implements OnInit {
       : [];
   }
   handleBookNow(car: CarRequest) {
-    console.log(car);
     this.store.dispatch({
       type: 'SELECTED_CAR',
       payload: car,

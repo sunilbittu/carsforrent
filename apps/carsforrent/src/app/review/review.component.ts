@@ -27,7 +27,7 @@ export class ReviewComponent implements OnInit {
       cancelUrl: `${window.location.href}/failure`,
     });
     if (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -40,7 +40,7 @@ export class ReviewComponent implements OnInit {
 
     const car = JSON.parse(localStorage.getItem('car') || '{}');
     const dates = JSON.parse(localStorage.getItem('dates') || '{}');
-    const address = JSON.parse(localStorage.getItem('address') || '{}');
+    const address = JSON.parse(localStorage.getItem('location') || '{}');
     this.carInfo = { ...car, ...dates, ...address };
   }
 }

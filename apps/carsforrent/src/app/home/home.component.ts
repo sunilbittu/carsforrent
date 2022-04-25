@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'carsforrent-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   constructor() {}
-
-  public executeSelectedChange = (event) => {
-    console.log(event);
-  };
 }

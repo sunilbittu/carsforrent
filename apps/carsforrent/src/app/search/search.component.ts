@@ -49,7 +49,6 @@ export class SearchComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
-    console.log(result);
     this.address['address'] = result.formatted_address;
     this.address['city'] =
       result.address_components?.length &&
@@ -69,7 +68,6 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    console.log(this.selectedDates.value);
     this.store.dispatch({
       type: 'SEARCH_DATES',
       payload: <IDates>{

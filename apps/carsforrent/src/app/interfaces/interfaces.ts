@@ -1,3 +1,5 @@
+import { IDates, SelectedLocation } from '../search/search.model';
+
 /*
 Interface for the Refresh Token (can look different; based on your backend api)
 */
@@ -78,4 +80,12 @@ export interface CarRequest {
 export interface CarResponse extends CarRequest {
   message: string;
   status: number;
+}
+
+export interface BookingRequest extends CarRequest, IDates, SelectedLocation {}
+
+export interface BookingResponse {
+  message: string;
+  status: number;
+  email: string;
 }

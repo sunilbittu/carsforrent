@@ -16,18 +16,14 @@ export class StoreCarService {
     private router: Router
   ) {}
   storeCar(carRequest: CarRequest): Observable<CarResponse> {
-    console.log(carRequest);
     return this.http.post<CarResponse>('/api/cars/create', carRequest).pipe(
-      tap((res: CarResponse) => {
-        console.log(res);
-      }),
-      tap(() =>
+      tap(() => {
         this.snackbar.open(`Car created successfully`, 'Close', {
           duration: 2000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
-        })
-      ),
+        });
+      }),
       tap(
         (res: CarResponse) =>
           res.status === 200 && this.router.navigateByUrl('/cars')
