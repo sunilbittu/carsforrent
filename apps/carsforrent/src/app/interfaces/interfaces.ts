@@ -72,6 +72,7 @@ export interface CarRequest {
   bookedTimeSlotsTo: [];
   rentPerHour: string;
   capacity: string;
+  img?: string;
 }
 
 export interface CarResponse extends CarRequest {

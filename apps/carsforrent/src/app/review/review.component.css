@@ -33,7 +33,6 @@
 }
 
 .page-checkout .car-info-container .car-name {
-  font-family: 'IBM Plex Sans';
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;
@@ -48,7 +47,6 @@
 }
 .page-checkout .car-info-container .info-container .car-info {
   display: block;
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -92,7 +90,6 @@
 }
 
 .car-trip-details .trip-info-container {
-  font-family: 'IBM Plex Sans';
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
@@ -155,7 +152,6 @@
   .car-trip-info
   .content-container
   .content-text {
-  font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -168,7 +164,6 @@
   .car-trip-info
   .content-container
   .content-sub-text {
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -191,7 +186,6 @@
 }
 
 .checkout-card-container .content-container .content-text {
-  font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -212,7 +206,6 @@
 }
 
 .checkout-card-container .content-container .content-text-disabled {
-  font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -221,7 +214,6 @@
 }
 
 .checkout-card-container .content-container .error-msg {
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
@@ -230,7 +222,6 @@
 }
 
 .card-section-container {
-  font-family: 'IBM Plex Sans';
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
@@ -240,7 +231,6 @@
 }
 
 .checkout-card-container .content-container .content-text {
-  font-family: 'IBM Plex Sans';
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -249,7 +239,6 @@
 }
 
 .checkout-card-container .content-container .content-sub-text {
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -258,7 +247,6 @@
 }
 
 .checkout-card-container .content-container .content-recommended-text {
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -333,7 +321,6 @@
 }
 
 .checkout-card-container .content-container .bg-grey-sub-text {
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -345,7 +332,6 @@
 .checkout-card-container .content-container .card-hyperlink {
   padding-top: 8px;
   text-decoration: underline;
-  font-family: 'IBM Plex Sans';
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
@@ -385,7 +371,6 @@
 }
 
 .payment-details .price-coupon-container .final-price {
-  font-family: 'IBM Plex Sans';
   font-size: 20px;
   font-weight: 600;
   line-height: 28px;
@@ -403,7 +388,6 @@
   justify-content: center;
   box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
     0 1px 5px 0 rgb(0 0 0 / 20%);
-  font-family: 'IBM Plex Sans';
   font-size: 14px;
   font-weight: 600;
   line-height: 16px;
