@@ -41,7 +41,12 @@ import { CarsComponent } from './cars/cars.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { FailuerComponent } from './failuer/failuer.component';
-import { addLocationReducer, datesReducer } from './reducers/search.reducer';
+import {
+  addLocationReducer,
+  datesReducer,
+  selectedCarReducer,
+} from './reducers/search.reducer';
+import { DateformatterPipe } from './dateformatter.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -70,6 +75,7 @@ export function tokenGetter() {
     AddressDetailsComponent,
     ConfirmationComponent,
     FailuerComponent,
+    DateformatterPipe,
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -81,7 +87,11 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
       },
     }),
-    StoreModule.forRoot({ location: addLocationReducer, dates: datesReducer }),
+    StoreModule.forRoot({
+      location: addLocationReducer,
+      dates: datesReducer,
+      carDetails: selectedCarReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       autoPause: true,

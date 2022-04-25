@@ -49,6 +49,11 @@ export class SearchComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
+    console.log(result);
+    this.address['address'] = result.formatted_address;
+    this.address['city'] =
+      result.address_components?.length &&
+      result.address_components[2].long_name;
     this.store.dispatch({
       type: 'SEARCH_LOCATION',
       payload: <SelectedLocation>{
@@ -72,6 +77,8 @@ export class SearchComponent implements OnInit {
         end: this.selectedDates.value.end,
       },
     });
+    localStorage.setItem('dates', JSON.stringify(this.selectedDates.value));
+    localStorage.setItem('location', JSON.stringify(this.address));
     this.router.navigateByUrl('/results');
   }
 }

@@ -35,10 +35,11 @@
           <div class="info">
             <div class="desc">
               <div class="car-name-location ellipsis">
-                <div class="car-location ellipsis">0.3 km Miyapur.</div>
-                <h3>Tata Tiago</h3>
+                <h3>{{ item.carName }}</h3>
               </div>
-              <div class="seater">Manual . Diesel .5 Seats</div>
+              <div class="seater">
+                {{ item.carType }} . {{ item.fuelType }} .{{ item.seats }} Seats
+              </div>
               <div class="car-item-extras">
                 <div class="car-item-message">
                   <div>
@@ -46,7 +47,9 @@
                       src="https://zoomcar-assets.zoomcar.com/images/original/b04593cd90f850d14ed46ed739b0371457ef6834.png?1633947533"
                     />
                   </div>
-                  <div class="text">5.0 (14) · 42,546 kms driven</div>
+                  <div class="text">
+                    {{ item.rating }} ({{ item.numReviews }}) ·
+                  </div>
                 </div>
               </div>
             </div>
@@ -58,9 +61,9 @@
             </div>
           </div>
           <div class="price-book-ctr">
-            <div class="price-bar d-f ai-c ta-c">₹ 698</div>
+            <div class="price-bar d-f ai-c ta-c">£ {{ item.price }}</div>
             <div class="book">
-              <button class="pointer" (click)="handleBookNow()">
+              <button class="pointer" (click)="handleBookNow(item)">
                 Book Now
               </button>
             </div>
