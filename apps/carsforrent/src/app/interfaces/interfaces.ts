@@ -1,5 +1,5 @@
 /*
-Interface for the Refresh Token (can look different, based on your backend api)
+Interface for the Refresh Token (can look different; based on your backend api)
 */
 export interface RefreshToken {
   id: number;
@@ -10,7 +10,7 @@ export interface RefreshToken {
 }
 
 /*
-  Interface for the Login Response (can look different, based on your backend api)
+  Interface for the Login Response (can look different; based on your backend api)
   */
 export interface LoginResponse {
   user: {
@@ -23,7 +23,7 @@ export interface LoginResponse {
 }
 
 /*
-  Interface for the Login Request (can look different, based on your backend api)
+  Interface for the Login Request (can look different; based on your backend api)
   */
 export interface LoginRequest {
   email: string;
@@ -31,7 +31,7 @@ export interface LoginRequest {
 }
 
 /*
-  Interface for the Register Request (can look different, based on your backend api)
+  Interface for the Register Request (can look different; based on your backend api)
   */
 export interface RegisterRequest {
   email: string;
@@ -40,7 +40,7 @@ export interface RegisterRequest {
 }
 
 /*
-  Interface for the Register Response (can look different, based on your backend api)
+  Interface for the Register Response (can look different; based on your backend api)
   */
 export interface RegisterResponse {
   user: {
@@ -50,4 +50,35 @@ export interface RegisterResponse {
     __v: number;
   };
   token: string;
+}
+
+export interface CarRequest {
+  carName: string;
+  seats: number;
+  carType: string;
+  transmission: string;
+  deliveryType: string;
+  note: string;
+  brand: string;
+  price: string;
+  countInStock: string;
+  rating: string;
+  numReviews: string;
+  fuelType: string;
+  locations: string;
+  freeKms: string;
+  deliveryCharges: string;
+  bookedTimeSlotsFrom: [];
+  bookedTimeSlotsTo: [];
+  rentPerHour: string;
+  capacity: string;
+}
+
+export interface CarResponse {
+  _id: string;
+  response: {
+    success: number;
+    message: string;
+    status: number;
+  };
 }

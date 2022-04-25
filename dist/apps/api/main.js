@@ -142,6 +142,7 @@ const app_controller_1 = __webpack_require__(/*! ./app.controller */ "./apps/api
 const app_service_1 = __webpack_require__(/*! ./app.service */ "./apps/api/src/app/app.service.ts");
 const auth_module_1 = __webpack_require__(/*! ./auth/auth.module */ "./apps/api/src/app/auth/auth.module.ts");
 const user_module_1 = __webpack_require__(/*! ./user/user.module */ "./apps/api/src/app/user/user.module.ts");
+const cars_module_1 = __webpack_require__(/*! ./cars/cars.module */ "./apps/api/src/app/cars/cars.module.ts");
 const geolocation_module_1 = __webpack_require__(/*! ./geolocation/geolocation.module */ "./apps/api/src/app/geolocation/geolocation.module.ts");
 let AppModule = class AppModule {
 };
@@ -159,6 +160,7 @@ AppModule = tslib_1.__decorate([
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             geolocation_module_1.GeolocationModule,
+            cars_module_1.CarsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
@@ -414,6 +416,139 @@ exports.JwtStrategy = JwtStrategy;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/cars/cars.controller.ts":
+/*!**************************************************!*\
+  !*** ./apps/api/src/app/cars/cars.controller.ts ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a, _b;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CarsController = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const cars_dto_1 = __webpack_require__(/*! ./cars.dto */ "./apps/api/src/app/cars/cars.dto.ts");
+const cars_service_1 = __webpack_require__(/*! ./cars.service */ "./apps/api/src/app/cars/cars.service.ts");
+let CarsController = class CarsController {
+    constructor(carsService) {
+        this.carsService = carsService;
+    }
+    register(carDetailsDto) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const carDetails = yield this.carsService.create(carDetailsDto);
+            return {
+                carDetails,
+                message: 'Car details created successfully',
+                status: 200,
+            };
+        });
+    }
+};
+tslib_1.__decorate([
+    common_1.Post('create'),
+    tslib_1.__param(0, common_1.Body()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof cars_dto_1.CarDetailsDTO !== "undefined" && cars_dto_1.CarDetailsDTO) === "function" ? _a : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], CarsController.prototype, "register", null);
+CarsController = tslib_1.__decorate([
+    common_1.Controller('cars'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof cars_service_1.CarsService !== "undefined" && cars_service_1.CarsService) === "function" ? _b : Object])
+], CarsController);
+exports.CarsController = CarsController;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/cars/cars.dto.ts":
+/*!*******************************************!*\
+  !*** ./apps/api/src/app/cars/cars.dto.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/cars/cars.module.ts":
+/*!**********************************************!*\
+  !*** ./apps/api/src/app/cars/cars.module.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CarsModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const cars_service_1 = __webpack_require__(/*! ./cars.service */ "./apps/api/src/app/cars/cars.service.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const cars_schema_1 = __webpack_require__(/*! ../models/cars.schema */ "./apps/api/src/app/models/cars.schema.ts");
+const cars_controller_1 = __webpack_require__(/*! ./cars.controller */ "./apps/api/src/app/cars/cars.controller.ts");
+let CarsModule = class CarsModule {
+};
+CarsModule = tslib_1.__decorate([
+    common_1.Module({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: 'CarDetails', schema: cars_schema_1.CarSchema }]),
+        ],
+        providers: [cars_service_1.CarsService],
+        controllers: [cars_controller_1.CarsController],
+        exports: [cars_service_1.CarsService],
+    })
+], CarsModule);
+exports.CarsModule = CarsModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/cars/cars.service.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/cars/cars.service.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CarsService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let CarsService = class CarsService {
+    constructor(carModel) {
+        this.carModel = carModel;
+    }
+    create(CarDetailsDTO) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const createdCar = new this.carModel(CarDetailsDTO);
+            yield createdCar.save();
+            return createdCar;
+        });
+    }
+};
+CarsService = tslib_1.__decorate([
+    common_1.Injectable(),
+    tslib_1.__param(0, mongoose_1.InjectModel('CarDetails')),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], CarsService);
+exports.CarsService = CarsService;
 
 
 /***/ }),
@@ -800,6 +935,43 @@ locations = tslib_1.__decorate([
 ], locations);
 exports.locations = locations;
 exports.GeoLocationSchema = mongoose_1.SchemaFactory.createForClass(locations);
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/models/cars.schema.ts":
+/*!************************************************!*\
+  !*** ./apps/api/src/app/models/cars.schema.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CarSchema = void 0;
+const mongoose = __webpack_require__(/*! mongoose */ "mongoose");
+exports.CarSchema = new mongoose.Schema({
+    carName: { type: String, required: true },
+    seats: { type: Number, required: true },
+    carType: { type: String, required: true },
+    transmission: { type: String, required: true },
+    deliveryType: { type: String, required: true },
+    note: { type: String, required: true },
+    brand: { type: String, required: true },
+    price: { type: String, required: true },
+    countInStock: { type: String, required: true },
+    rating: { type: String, required: true },
+    numReviews: { type: String, required: true },
+    fuelType: { type: String, required: true },
+    locations: { type: String, required: true },
+    freeKms: { type: String, required: true },
+    deliveryCharges: { type: String, required: true },
+    bookedTimeSlotsFrom: { type: [], required: true },
+    bookedTimeSlotsTo: { type: [], required: true },
+    rentPerHour: { type: String, required: true },
+    capacity: { type: String, required: true },
+});
 
 
 /***/ }),
