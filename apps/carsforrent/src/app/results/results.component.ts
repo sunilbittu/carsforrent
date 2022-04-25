@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'carsforrent-results',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent {
-  constructor() {}
+  constructor(private router: Router) {}
+
+  handleBookNow() {
+    this.router.navigateByUrl('/review');
+  }
 }
