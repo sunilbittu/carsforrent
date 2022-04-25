@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,7 +23,6 @@ import { ResultsComponent } from './results/results.component';
 import { ReviewComponent } from './review/review.component';
 import { UsersComponent } from './users/users.component';
 import { BookingsComponent } from './bookings/bookings.component';
-import { PaymentComponent } from './payment/payment.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +38,8 @@ import { BookingsListComponent } from './bookings-list/bookings-list.component';
 import { CarsListComponent } from './cars-list/cars-list.component';
 import { CarsComponent } from './cars/cars.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { FailuerComponent } from './failuer/failuer.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -57,7 +59,6 @@ export function tokenGetter() {
     ReviewComponent,
     UsersComponent,
     BookingsComponent,
-    PaymentComponent,
     UserDetailsComponent,
     CarDetailsComponent,
     UsersListComponent,
@@ -65,6 +66,8 @@ export function tokenGetter() {
     CarsListComponent,
     CarsComponent,
     AddressDetailsComponent,
+    ConfirmationComponent,
+    FailuerComponent,
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -93,6 +96,7 @@ export function tokenGetter() {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    NgxPayPalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
