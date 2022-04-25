@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { CarsModule } from './cars/cars.module';
 import { GeolocationModule } from './geolocation/geolocation.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { GeolocationModule } from './geolocation/geolocation.module';
     AuthModule,
     UserModule,
     GeolocationModule,
+    CarsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

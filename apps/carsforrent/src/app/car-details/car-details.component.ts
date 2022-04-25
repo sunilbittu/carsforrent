@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { StoreCarService } from '../store-car.service';
+
 
 @Component({
   selector: 'carsforrent-car-details',
@@ -7,6 +9,9 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./car-details.component.css'],
 })
 export class CarDetailsComponent {
+  slotsFrom = new FormControl(null, [Validators.required]);
+  slotsTo = new FormControl(null, [Validators.required]);
+
   addressForm = this.fb.group({
     carName: [null, Validators.required],
     image: [null, Validators.required],
@@ -24,79 +29,62 @@ export class CarDetailsComponent {
     locations: [null, Validators.required],
     freeKms: [null, Validators.required],
     deliveryCharges: [null, Validators.required],
-    bookedTimeSlotsFrom: [null, Validators.required],
-    bookedTimeSlotsTo: [null, Validators.required],
+    bookedTimeSlotsFrom: this.slotsFrom,
+    bookedTimeSlotsTo: this.slotsTo,
     rentPerHour: [null, Validators.required],
     capacity: [null, Validators.required],
   });
 
   hasUnitNumber = false;
 
-  states = [
-    { name: 'Alabama', abbreviation: 'AL' },
-    { name: 'Alaska', abbreviation: 'AK' },
-    { name: 'American Samoa', abbreviation: 'AS' },
-    { name: 'Arizona', abbreviation: 'AZ' },
-    { name: 'Arkansas', abbreviation: 'AR' },
-    { name: 'California', abbreviation: 'CA' },
-    { name: 'Colorado', abbreviation: 'CO' },
-    { name: 'Connecticut', abbreviation: 'CT' },
-    { name: 'Delaware', abbreviation: 'DE' },
-    { name: 'District Of Columbia', abbreviation: 'DC' },
-    { name: 'Federated States Of Micronesia', abbreviation: 'FM' },
-    { name: 'Florida', abbreviation: 'FL' },
-    { name: 'Georgia', abbreviation: 'GA' },
-    { name: 'Guam', abbreviation: 'GU' },
-    { name: 'Hawaii', abbreviation: 'HI' },
-    { name: 'Idaho', abbreviation: 'ID' },
-    { name: 'Illinois', abbreviation: 'IL' },
-    { name: 'Indiana', abbreviation: 'IN' },
-    { name: 'Iowa', abbreviation: 'IA' },
-    { name: 'Kansas', abbreviation: 'KS' },
-    { name: 'Kentucky', abbreviation: 'KY' },
-    { name: 'Louisiana', abbreviation: 'LA' },
-    { name: 'Maine', abbreviation: 'ME' },
-    { name: 'Marshall Islands', abbreviation: 'MH' },
-    { name: 'Maryland', abbreviation: 'MD' },
-    { name: 'Massachusetts', abbreviation: 'MA' },
-    { name: 'Michigan', abbreviation: 'MI' },
-    { name: 'Minnesota', abbreviation: 'MN' },
-    { name: 'Mississippi', abbreviation: 'MS' },
-    { name: 'Missouri', abbreviation: 'MO' },
-    { name: 'Montana', abbreviation: 'MT' },
-    { name: 'Nebraska', abbreviation: 'NE' },
-    { name: 'Nevada', abbreviation: 'NV' },
-    { name: 'New Hampshire', abbreviation: 'NH' },
-    { name: 'New Jersey', abbreviation: 'NJ' },
-    { name: 'New Mexico', abbreviation: 'NM' },
-    { name: 'New York', abbreviation: 'NY' },
-    { name: 'North Carolina', abbreviation: 'NC' },
-    { name: 'North Dakota', abbreviation: 'ND' },
-    { name: 'Northern Mariana Islands', abbreviation: 'MP' },
-    { name: 'Ohio', abbreviation: 'OH' },
-    { name: 'Oklahoma', abbreviation: 'OK' },
-    { name: 'Oregon', abbreviation: 'OR' },
-    { name: 'Palau', abbreviation: 'PW' },
-    { name: 'Pennsylvania', abbreviation: 'PA' },
-    { name: 'Puerto Rico', abbreviation: 'PR' },
-    { name: 'Rhode Island', abbreviation: 'RI' },
-    { name: 'South Carolina', abbreviation: 'SC' },
-    { name: 'South Dakota', abbreviation: 'SD' },
-    { name: 'Tennessee', abbreviation: 'TN' },
-    { name: 'Texas', abbreviation: 'TX' },
-    { name: 'Utah', abbreviation: 'UT' },
-    { name: 'Vermont', abbreviation: 'VT' },
-    { name: 'Virgin Islands', abbreviation: 'VI' },
-    { name: 'Virginia', abbreviation: 'VA' },
-    { name: 'Washington', abbreviation: 'WA' },
-    { name: 'West Virginia', abbreviation: 'WV' },
-    { name: 'Wisconsin', abbreviation: 'WI' },
-    { name: 'Wyoming', abbreviation: 'WY' },
+  types = [
+    { name: 'Sedan', abbreviation: 'Sedan' },
+    { name: 'SUV', abbreviation: 'SUV' },
+    { name: 'Hatchback', abbreviation: 'Hatchback' },
+    { name: 'Convertible', abbreviation: 'Convertible' },
+  ];
+  brands = [
+    { name: 'Aston Martin', abbreviation: 'Aston Martin' },
+    { name: 'Audi', abbreviation: 'Audi' },
+    { name: 'BMW', abbreviation: 'BMW' },
+    { name: 'Chevrolet', abbreviation: 'Chevrolet' },
+    { name: 'Citroen', abbreviation: 'Citroen' },
+    { name: 'Dacia', abbreviation: 'Dacia' },
+    { name: 'Fiat', abbreviation: 'Fiat' },
+    { name: 'Ford', abbreviation: 'Ford' },
+    { name: 'Honda', abbreviation: 'Honda' },
   ];
 
-  constructor(private fb: FormBuilder) {}
+  transmissions = [
+    { name: 'Manual', abbreviation: 'Manual' },
+    { name: 'Automatic', abbreviation: 'Automatic' },
+  ];
+
+  deliveryTypes = [
+    { name: 'Self Drive', abbreviation: 'Self Drive' },
+    { name: 'Rented', abbreviation: 'Rented' },
+  ];
+
+  fuelTypes = [
+    { name: 'Petrol', abbreviation: 'Petrol' },
+    { name: 'Diesel', abbreviation: 'Diesel' },
+  ];
+
+  weekdays = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  constructor(private fb: FormBuilder, private carService: StoreCarService) {}
 
   onSubmit(): void {
-    alert('Thanks!');
+    console.log(JSON.stringify(this.addressForm.value));
+    this.carService.storeCar(this.addressForm.value).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

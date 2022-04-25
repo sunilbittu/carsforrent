@@ -12,8 +12,17 @@
         </div>
         <div class="col col-sm-12">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Brand" formControlName="brand" />
-            <mat-error *ngIf="addressForm.controls['brand'].hasError('required')">
+            <mat-select placeholder="Brand" formControlName="brand">
+              <mat-option
+                *ngFor="let item of brands"
+                [value]="item.abbreviation"
+              >
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="addressForm.controls['brand'].hasError('required')"
+            >
               Brand is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -31,8 +40,11 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-select placeholder="Car Type" formControlName="carType">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+              <mat-option
+                *ngFor="let type of types"
+                [value]="type.abbreviation"
+              >
+                {{ type.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.controls['carType'].hasError('required')">
@@ -42,9 +54,15 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Transmission" formControlName="transmission">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+            <mat-select
+              placeholder="Transmission"
+              formControlName="transmission"
+            >
+              <mat-option
+                *ngFor="let item of transmissions"
+                [value]="item.abbreviation"
+              >
+                {{ item.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.controls['transmission'].hasError('required')">
@@ -54,9 +72,15 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Delivery Type" formControlName="deliveryType">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+            <mat-select
+              placeholder="Delivery Type"
+              formControlName="deliveryType"
+            >
+              <mat-option
+                *ngFor="let item of deliveryTypes"
+                [value]="item.abbreviation"
+              >
+                {{ item.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.controls['deliveryType'].hasError('required')">
@@ -67,8 +91,11 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-select placeholder="Fuel Type" formControlName="fuelType">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+              <mat-option
+                *ngFor="let fuelType of fuelTypes"
+                [value]="fuelType.abbreviation"
+              >
+                {{ fuelType.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.controls['fuelType'].hasError('required')">
@@ -149,23 +176,43 @@
       </div>
       <div class="row">
         <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="bookedTimeSlotsFrom" formControlName="bookedTimeSlotsFrom" />
-            <mat-error *ngIf="
-                addressForm.controls['bookedTimeSlotsFrom'].hasError('required')
-              ">
-              bookedTimeSlotsFrom <strong>required</strong>
-            </mat-error>
+          <mat-form-field>
+            <mat-label>Slots From</mat-label>
+            <mat-select [formControl]="slotsFrom" multiple>
+              <mat-select-trigger>
+                {{ slotsFrom.value ? slotsFrom.value[0] : '' }}
+                <span
+                  *ngIf="slotsFrom.value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ slotsFrom.value.length - 1 }}
+                  {{ slotsFrom.value?.length === 2 ? 'other' : 'others' }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let day of weekdays" [value]="day">{{
+                day
+              }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="bookedTimeSlotsTo" formControlName="bookedTimeSlotsTo" />
-            <mat-error *ngIf="
-                addressForm.controls['bookedTimeSlotsTo'].hasError('required')
-              ">
-              bookedTimeSlotsTo <strong>required</strong>
-            </mat-error>
+          <mat-form-field>
+            <mat-label>Slots To</mat-label>
+            <mat-select [formControl]="slotsTo" multiple>
+              <mat-select-trigger>
+                {{ slotsTo.value ? slotsTo.value[0] : '' }}
+                <span
+                  *ngIf="slotsTo.value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ slotsTo.value.length - 1 }}
+                  {{ slotsTo.value?.length === 2 ? 'other' : 'others' }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let day of weekdays" [value]="day">{{
+                day
+              }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

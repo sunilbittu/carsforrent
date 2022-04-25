@@ -4,7 +4,13 @@ import {
   Location,
   Appearance,
 } from '@angular-material-extensions/google-maps-autocomplete';
+import { AppState } from './../app.state';
+import { Store } from '@ngrx/store';
+import { IDates, SelectedLocation } from './../search/search.model';
+
 import PlaceResult = google.maps.places.PlaceResult;
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'carsforrent-search',
@@ -14,11 +20,20 @@ import PlaceResult = google.maps.places.PlaceResult;
 })
 export class SearchComponent implements OnInit {
   public appearance = Appearance;
+  public country: string;
   public latitude: number;
   public longitude: number;
   public selectedAddress: PlaceResult;
-
-  constructor() {}
+  public address = {};
+  minDate = new Date();
+  selectedDates: FormGroup;
+  constructor(private store: Store<AppState>, private router: Router) {
+    this.selectedDates = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
+    this.minDate = new Date();
+  }
 
   ngOnInit() {
     this.setCurrentPosition();
@@ -34,16 +49,29 @@ export class SearchComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
-    console.log('onAutocompleteSelected: ', result);
+    this.store.dispatch({
+      type: 'SEARCH_LOCATION',
+      payload: <SelectedLocation>{
+        address: result.formatted_address,
+        city: 'London',
+      },
+    });
   }
 
   onLocationSelected(location: Location) {
-    console.log('onLocationSelected: ', location);
     this.latitude = location.latitude;
     this.longitude = location.longitude;
   }
 
   search() {
-    console.log('search');
+    console.log(this.selectedDates.value);
+    this.store.dispatch({
+      type: 'SEARCH_DATES',
+      payload: <IDates>{
+        start: this.selectedDates.value.start,
+        end: this.selectedDates.value.end,
+      },
+    });
+    this.router.navigateByUrl('/results');
   }
 }

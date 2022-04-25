@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { JwtModule } from '@auth0/angular-jwt';
-import { NgxPayPalModule } from 'ngx-paypal';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -40,6 +41,7 @@ import { CarsComponent } from './cars/cars.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { FailuerComponent } from './failuer/failuer.component';
+import { addLocationReducer, datesReducer } from './reducers/search.reducer';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -79,6 +81,11 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
       },
     }),
+    StoreModule.forRoot({ location: addLocationReducer, dates: datesReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      autoPause: true,
+    }),
     MatGoogleMapsAutocompleteModule,
     BrowserModule,
     HttpClientModule,
@@ -96,7 +103,6 @@ export function tokenGetter() {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    NgxPayPalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
