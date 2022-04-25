@@ -14,4 +14,8 @@ export class CarsService {
     await createdCar.save();
     return createdCar;
   }
+
+  async getAllCars() {
+    return await this.carModel.find().exec();
+  }
 }

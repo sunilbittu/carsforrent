@@ -74,11 +74,7 @@ export interface CarRequest {
   capacity: string;
 }
 
-export interface CarResponse {
-  _id: string;
-  response: {
-    success: number;
-    message: string;
-    status: number;
-  };
+export interface CarResponse extends CarRequest {
+  message: string;
+  status: number;
 }

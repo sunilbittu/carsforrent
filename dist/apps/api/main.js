@@ -440,6 +440,11 @@ let CarsController = class CarsController {
     constructor(carsService) {
         this.carsService = carsService;
     }
+    getAllCars() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return yield this.carsService.getAllCars();
+        });
+    }
     register(carDetailsDto) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const carDetails = yield this.carsService.create(carDetailsDto);
@@ -451,6 +456,12 @@ let CarsController = class CarsController {
         });
     }
 };
+tslib_1.__decorate([
+    common_1.Get('all'),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], CarsController.prototype, "getAllCars", null);
 tslib_1.__decorate([
     common_1.Post('create'),
     tslib_1.__param(0, common_1.Body()),
@@ -540,6 +551,11 @@ let CarsService = class CarsService {
             const createdCar = new this.carModel(CarDetailsDTO);
             yield createdCar.save();
             return createdCar;
+        });
+    }
+    getAllCars() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return yield this.carModel.find().exec();
         });
     }
 };
