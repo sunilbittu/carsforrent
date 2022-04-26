@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoreCarService } from '../store-car.service';
 
-
 @Component({
   selector: 'carsforrent-car-details',
   templateUrl: './car-details.component.html',
@@ -82,9 +81,6 @@ export class CarDetailsComponent {
   constructor(private fb: FormBuilder, private carService: StoreCarService) {}
 
   onSubmit(): void {
-    console.log(JSON.stringify(this.addressForm.value));
-    this.carService.storeCar(this.addressForm.value).subscribe((data) => {
-      console.log(data);
-    });
+    this.carService.storeCar(this.addressForm.value).pipe().subscribe();
   }
 }

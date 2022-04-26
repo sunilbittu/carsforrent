@@ -36,14 +36,13 @@ export class CarsListComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.carsService.getAllCars().subscribe(
         (res) => {
-          console.log(res);
           this.dataArray = res;
           this.dataSource = new MatTableDataSource<CarRequest>(this.dataArray);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
+          console.error(err);
         }
       )
     );

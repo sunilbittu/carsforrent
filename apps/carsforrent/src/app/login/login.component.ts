@@ -24,16 +24,12 @@ export class LoginComponent {
       return;
     }
     try {
-      const result = this.authService
-        .login(this.loginForm.value)
-        .pipe()
-        .subscribe();
+      this.authService.login(this.loginForm.value).pipe().subscribe();
       /* .pipe(
           tap(() => {
             this._router.navigateByUrl('/');
           })
         ) */
-      console.log(result);
     } catch (error) {
       this.errorExist = true;
     }

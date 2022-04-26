@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CarsModule } from './cars/cars.module';
 import { GeolocationModule } from './geolocation/geolocation.module';
+import { BookingsModule } from './booking/bookings.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { GeolocationModule } from './geolocation/geolocation.module';
     UserModule,
     GeolocationModule,
     CarsModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
