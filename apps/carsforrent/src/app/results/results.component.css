@@ -63,6 +63,11 @@ mat-tab-group p {
   margin-left: 10px;
   margin-bottom: 20px;
 }
+
+.carslistGroup {
+  display: flex;
+  flex-wrap: wrap;
+}
 @media (min-width: 900px) {
   .component-car-item {
     display: flex;
