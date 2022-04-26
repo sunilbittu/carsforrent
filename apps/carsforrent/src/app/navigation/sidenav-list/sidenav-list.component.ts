@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'carsforrent-sidenav-list',
@@ -9,9 +10,18 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class SidenavListComponent {
   @Output() sidenavClose = new EventEmitter();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   public onSidenavClose = () => {
     this.sidenavClose.emit();
+  };
+
+  public handleCars = () => {
+    this.router.navigateByUrl('/cars')
+  };
+
+  public handleBookings = () => {
+    this.sidenavClose.emit();
+    this.router.navigateByUrl('/bookings')
   };
 }

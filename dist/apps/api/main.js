@@ -1384,7 +1384,7 @@ bootstrap();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\New folder\carsforrent\apps\api\src\main.ts */"./apps/api/src/main.ts");
+module.exports = __webpack_require__(/*! /home/sb/workspace/carsforrent/carsforrent/apps/api/src/main.ts */"./apps/api/src/main.ts");
 
 
 /***/ }),
