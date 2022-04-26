@@ -47,6 +47,7 @@ import {
   selectedCarReducer,
 } from './reducers/search.reducer';
 import { DateformatterPipe } from './dateformatter.pipe';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -76,6 +77,7 @@ export function tokenGetter() {
     ConfirmationComponent,
     FailuerComponent,
     DateformatterPipe,
+    AccessDeniedComponent,
   ],
   imports: [
     AgmCoreModule.forRoot({

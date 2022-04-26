@@ -14,9 +14,8 @@
           <a matline>My Profile</a>
         </mat-list-item>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onSidenavClose()">Users</button>
-          <button mat-menu-item (click)="onSidenavClose()">Cars</button>
-          <button mat-menu-item (click)="onSidenavClose()">Bookings</button>
+          <button mat-menu-item (click)="handleCars()">Cars</button>
+          <button mat-menu-item (click)="handleBookings()">Bookings</button>
         </mat-menu>
       </li>
       <li *ngIf="!isLoggedIn">

@@ -4,6 +4,8 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
@@ -18,14 +20,15 @@ export class HeaderComponent implements OnInit {
   isAdmin = false;
   isLoggedIn = false;
   tokenExists = localStorage.getItem('token') ? true : false;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router,
+    private jwtService: JwtHelperService) {}
 
   ngOnInit(): void {
-    const user = this.authService.getLoggedInUser();
-    if (user.isAdmin && this.tokenExists) {
+    const decodeToken = this.jwtService.decodeToken();
+    if (decodeToken.isAdmin && this.tokenExists) {
       this.isAdmin = true;
     }
-    if (user.email || this.tokenExists) {
+    if (decodeToken.email || this.tokenExists) {
       this.isLoggedIn = true;
     }
   }
@@ -43,4 +46,10 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = false;
     this.isAdmin = false;
   };
+  handleCars() {
+    this.router.navigateByUrl('/cars')
+  }
+  handleBookings() {
+    this.router.navigateByUrl('/bookings')
+  }
 }

@@ -15,8 +15,11 @@ import { CarsComponent } from '../cars/cars.component';
 import { AddressDetailsComponent } from '../address-details/address-details.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { FailuerComponent } from '../failuer/failuer.component';
+import { AuthGuard } from '../auth-guard/auth.guard';
+import { AccessDeniedComponent } from '../access-denied/access-denied.component';
 
 const routes: Routes = [
+  { path: 'accessdenied', component: AccessDeniedComponent },
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -26,12 +29,54 @@ const routes: Routes = [
   { path: 'review', component: ReviewComponent },
   { path: 'review/success', component: ConfirmationComponent },
   { path: 'review/failuer', component: FailuerComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'bookings', component: BookingsComponent },
-  { path: 'user-details', component: UserDetailsComponent },
-  { path: 'car-details', component: CarDetailsComponent },
-  { path: 'cars', component: CarsComponent },
-  { path: 'address-details', component: AddressDetailsComponent },
+  {
+    path: 'users',
+    component: UsersComponent,
+    data: {
+      allowedRoles: ['isAdmin'],
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bookings',
+    component: BookingsComponent,
+    data: {
+      allowedRoles: ['isAdmin'],
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-details',
+    component: UserDetailsComponent,
+    data: {
+      allowedRoles: ['isAdmin'],
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'car-details',
+    component: CarDetailsComponent,
+    data: {
+      allowedRoles: ['isAdmin'],
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cars',
+    component: CarsComponent,
+    data: {
+      allowedRoles: [{ isAdmin: true }],
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'address-details',
+    component: AddressDetailsComponent,
+    data: {
+      allowedRoles: [{ isAdmin: true }],
+    },
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

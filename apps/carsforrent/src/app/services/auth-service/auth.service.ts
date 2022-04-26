@@ -74,4 +74,15 @@ export class AuthService {
     localStorage.removeItem('token');
     this.router.navigate(['../../']);
   }
+
+  isAuthorized(allowedRoles: string[]): boolean {
+    if (allowedRoles == null || allowedRoles.length === 0) {
+      return true;
+    }
+    const decodeToken = this.jwtService.decodeToken();
+    if (!decodeToken?.email) {
+      return false;
+    }
+    return allowedRoles[0]['isAdmin'] === decodeToken['isAdmin'];
+  }
 }
