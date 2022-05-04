@@ -55,6 +55,7 @@ export interface RegisterResponse {
 }
 
 export interface CarRequest {
+  id: string;
   carName: string;
   seats: number;
   carType: string;

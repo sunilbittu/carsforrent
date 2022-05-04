@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const CarSchema = new mongoose.Schema({
+  id: { type: String, required: true },
   carName: { type: String, required: true },
   seats: { type: Number, required: true },
   carType: { type: String, required: true },
@@ -16,8 +17,8 @@ export const CarSchema = new mongoose.Schema({
   locations: { type: String, required: true },
   freeKms: { type: String, required: true },
   deliveryCharges: { type: String, required: true },
-  bookedTimeSlotsFrom: { type: [], required: true },
-  bookedTimeSlotsTo: { type: [], required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
   rentPerHour: { type: String, required: true },
   capacity: { type: String, required: true },
 });

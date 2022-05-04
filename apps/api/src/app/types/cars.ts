@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Cars extends Document {
+  id: string;
   carName: string;
   seats: number;
   carType: string;
@@ -16,8 +17,8 @@ export interface Cars extends Document {
   locations: string;
   freeKms: string;
   deliveryCharges: string;
-  bookedTimeSlotsFrom: [];
-  bookedTimeSlotsTo: [];
+  startDate: string;
+  endDate: string;
   rentPerHour: string;
   capacity: string;
 }

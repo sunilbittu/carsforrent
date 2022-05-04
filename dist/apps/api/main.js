@@ -701,9 +701,11 @@ let CarsService = class CarsService {
     }
     create(CarDetailsDTO) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const createdCar = new this.carModel(CarDetailsDTO);
-            yield createdCar.save();
-            return createdCar;
+            const id = Math.random().toString(36).substring(2, 15) +
+                Math.random().toString(36).substring(2, 15);
+            const carDetails = new this.carModel(Object.assign(Object.assign({}, CarDetailsDTO), { id }));
+            yield carDetails.save();
+            return carDetails;
         });
     }
     getAllCars() {
@@ -1146,6 +1148,7 @@ exports.BookingsSchema = new mongoose.Schema({
     city: { type: String, required: true },
     img: { type: String, required: false },
     email: { type: String, required: true },
+    id: { type: String, required: true },
 });
 
 
@@ -1164,6 +1167,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarSchema = void 0;
 const mongoose = __webpack_require__(/*! mongoose */ "mongoose");
 exports.CarSchema = new mongoose.Schema({
+    id: { type: String, required: true },
     carName: { type: String, required: true },
     seats: { type: Number, required: true },
     carType: { type: String, required: true },
@@ -1179,8 +1183,8 @@ exports.CarSchema = new mongoose.Schema({
     locations: { type: String, required: true },
     freeKms: { type: String, required: true },
     deliveryCharges: { type: String, required: true },
-    bookedTimeSlotsFrom: { type: [], required: true },
-    bookedTimeSlotsTo: { type: [], required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
     rentPerHour: { type: String, required: true },
     capacity: { type: String, required: true },
 });

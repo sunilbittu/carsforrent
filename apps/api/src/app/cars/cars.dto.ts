@@ -1,4 +1,5 @@
 export interface CarDetailsDTO {
+  id: string;
   carName: string;
   seats: number;
   carType: string;
@@ -14,8 +15,8 @@ export interface CarDetailsDTO {
   locations: string;
   freeKms: string;
   deliveryCharges: string;
-  bookedTimeSlotsFrom: [];
-  bookedTimeSlotsTo: [];
+  startDate: string;
+  endDate: string;
   rentPerHour: string;
   capacity: string;
 }

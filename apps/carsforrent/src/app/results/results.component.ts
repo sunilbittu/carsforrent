@@ -45,11 +45,7 @@ export class ResultsComponent implements OnInit {
     const unique = _.uniqBy(date);
     const arr: any = [];
     for (let i = 0; i < this.cars.length; i++) {
-      for (let j = 0; j < this.cars[i].bookedTimeSlotsFrom.length; j++) {
-        if (unique.includes(this.cars[i].bookedTimeSlotsFrom[j])) {
-          arr.push(this.cars[i]);
-        }
-      }
+      arr.push(this.cars[i]);
     }
     const formattedData = _.uniqBy(arr, '_id');
     this.cars = formattedData.length

@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Bookings extends Document {
+  id: string;
   carName: string;
   seats: number;
   carType: string;

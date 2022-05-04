@@ -26,4 +26,5 @@ export const BookingsSchema = new mongoose.Schema({
   city: { type: String, required: true },
   img: { type: String, required: false },
   email: { type: String, required: true },
+  id: { type: String, required: true },
 });

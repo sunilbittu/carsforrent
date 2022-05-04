@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import * as moment from 'moment';
 import { StoreCarService } from '../store-car.service';
 
 @Component({
@@ -8,9 +10,6 @@ import { StoreCarService } from '../store-car.service';
   styleUrls: ['./car-details.component.css'],
 })
 export class CarDetailsComponent {
-  slotsFrom = new FormControl(null, [Validators.required]);
-  slotsTo = new FormControl(null, [Validators.required]);
-
   addressForm = this.fb.group({
     carName: [null, Validators.required],
     image: [null, Validators.required],
@@ -28,11 +27,13 @@ export class CarDetailsComponent {
     locations: [null, Validators.required],
     freeKms: [null, Validators.required],
     deliveryCharges: [null, Validators.required],
-    bookedTimeSlotsFrom: this.slotsFrom,
-    bookedTimeSlotsTo: this.slotsTo,
+    startDate: [null, Validators.required],
+    endDate: [null, Validators.required],
     rentPerHour: [null, Validators.required],
     capacity: [null, Validators.required],
   });
+  minDate: Date;
+  dMinDate: Date;
 
   hasUnitNumber = false;
 
@@ -69,17 +70,26 @@ export class CarDetailsComponent {
     { name: 'Diesel', abbreviation: 'Diesel' },
   ];
 
-  weekdays = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-  constructor(private fb: FormBuilder, private carService: StoreCarService) {}
-
+  constructor(private fb: FormBuilder, private carService: StoreCarService) {
+    this.minDate = new Date();
+    this.dMinDate = moment(this.minDate).add(1, 'days').toDate();
+  }
+  handleDateChange(
+    type: string,
+    event: MatDatepickerInputEvent<Date>,
+    dateType: string
+  ) {
+    if (dateType === 'pkp') {
+      this.dMinDate = moment(event.value).add(1, 'days').toDate();
+      this.addressForm.patchValue({
+        startDate: event.value,
+      });
+    } else {
+      this.addressForm.patchValue({
+        endDate: event.value,
+      });
+    }
+  }
   onSubmit(): void {
     this.carService.storeCar(this.addressForm.value).pipe().subscribe();
   }

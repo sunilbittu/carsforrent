@@ -9,10 +9,17 @@ export class CarsService {
   constructor(@InjectModel('CarDetails') private carModel: Model<Cars>) {}
 
   async create(CarDetailsDTO: CarDetailsDTO) {
-    const createdCar = new this.carModel(CarDetailsDTO);
+    const id =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
 
-    await createdCar.save();
-    return createdCar;
+    const carDetails = new this.carModel({
+      ...CarDetailsDTO,
+      id,
+    });
+
+    await carDetails.save();
+    return carDetails;
   }
 
   async getAllCars() {

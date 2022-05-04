@@ -33,7 +33,7 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent,
     data: {
-      allowedRoles: ['isAdmin'],
+      allowedRoles: [{ isAdmin: true }],
     },
     canActivate: [AuthGuard],
   },
@@ -41,7 +41,7 @@ const routes: Routes = [
     path: 'bookings',
     component: BookingsComponent,
     data: {
-      allowedRoles: ['isAdmin'],
+      allowedRoles: [{ isAdmin: true }],
     },
     canActivate: [AuthGuard],
   },
@@ -49,7 +49,7 @@ const routes: Routes = [
     path: 'user-details',
     component: UserDetailsComponent,
     data: {
-      allowedRoles: ['isAdmin'],
+      allowedRoles: [{ isAdmin: true }],
     },
     canActivate: [AuthGuard],
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
     path: 'car-details',
     component: CarDetailsComponent,
     data: {
-      allowedRoles: ['isAdmin'],
+      allowedRoles: [{ isAdmin: true }],
     },
     canActivate: [AuthGuard],
   },
