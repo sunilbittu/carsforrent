@@ -1,8 +1,8 @@
 import { CarDetailsDTO } from '../cars/cars.dto';
 
 export interface BookingDetailsDTO extends CarDetailsDTO {
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   address: string;
   city: string;
   img?: string;

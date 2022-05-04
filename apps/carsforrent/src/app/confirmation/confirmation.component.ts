@@ -27,6 +27,7 @@ export class ConfirmationComponent implements OnInit {
     const dates = JSON.parse(localStorage.getItem('dates') || '{}');
     const location = JSON.parse(localStorage.getItem('location') || '{}');
     const decodedToken = this.jwtService.decodeToken();
+    
     const carInfo = {
       ...car,
       ...dates,

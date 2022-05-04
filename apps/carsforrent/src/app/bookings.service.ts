@@ -23,7 +23,6 @@ export class BookingsService {
     return this.http.get<BookingRequest[]>('/api/booking/all');
   }
   handleSession() {
-    this.router.navigate(['/']);
     localStorage.removeItem('location');
     localStorage.removeItem('dates');
     localStorage.removeItem('car');

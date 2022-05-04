@@ -5,10 +5,11 @@ import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import _ from 'lodash';
 import { AppState } from '../app.state';
-import { CarRequest } from '../interfaces/interfaces';
+import { CarRequest, CarResponse, SearchResponse } from '../interfaces/interfaces';
 import { IDates } from '../search/search.model';
 import { StoreCarService } from '../store-car.service';
 import { images } from './helper';
+import { SearchService } from '../search/search.service';
 
 @Component({
   selector: 'carsforrent-results',
@@ -16,38 +17,30 @@ import { images } from './helper';
   styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent implements OnInit {
-  public cars: CarRequest[];
+  public cars: any
   public dates: IDates;
 
   constructor(
     private router: Router,
-    private carsService: StoreCarService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private searchService: SearchService,
   ) {}
 
   ngOnInit() {
-    this.carsService.getAllCars().subscribe((res) => {
-      this.cars = res;
-      this.getAvailableCars();
-    });
+    const address = JSON.parse(localStorage.getItem('address') || '{}');
+    const dates = JSON.parse(localStorage.getItem('dates') || '{}');
+    const formattedStartDate = moment(dates.start).format('YYYY-MM-DD');
+    const formattedEndDate = moment(dates.end).format('YYYY-MM-DD');
+    const request = { address: address.address, city: address.city, start: formattedStartDate, end: formattedEndDate };
+    this.searchService.getAvailableCars(request).pipe().subscribe(
+      (res) => {
+        this.cars = res;
+        this.getAvailableCars();
+      }
+    );
   }
   getAvailableCars() {
-    this.dates = JSON.parse(localStorage.getItem('dates') || '{}');
-    let startWeek = moment(this.dates.start); // 0 -- 6
-    const endWeek = moment(this.dates.end); // 6 0
-    const date: any = [];
-    const weekArray = moment.weekdays();
-    while (moment(startWeek) <= moment(endWeek)) {
-      const day = weekArray[moment(startWeek).day()];
-      date.push(day);
-      startWeek = moment(startWeek).add(1, 'days');
-    }
-    const unique = _.uniqBy(date);
-    const arr: any = [];
-    for (let i = 0; i < this.cars.length; i++) {
-      arr.push(this.cars[i]);
-    }
-    const formattedData = _.uniqBy(arr, '_id');
+    const formattedData = _.uniqBy(this.cars.carDetails, '_id');
     this.cars = formattedData.length
       ? formattedData.map((item) => ({
           ...item,

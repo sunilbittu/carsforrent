@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { CarsModule } from './cars/cars.module';
 import { GeolocationModule } from './geolocation/geolocation.module';
 import { BookingsModule } from './booking/bookings.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -23,13 +24,14 @@ import { BookingsModule } from './booking/bookings.module';
     }),
     MongooseModule.forRoot(
       'mongodb+srv://admin:admin@cluster0.irozl.mongodb.net/carsrent?retryWrites=true&w=majority',
-      { useNewUrlParser: true }
+      { useNewUrlParser: true, useUnifiedTopology: true },
     ),
     AuthModule,
     UserModule,
     GeolocationModule,
     CarsModule,
     BookingsModule,
+    SearchModule
   ],
   controllers: [AppController],
   providers: [AppService],

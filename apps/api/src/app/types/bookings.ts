@@ -21,8 +21,8 @@ export interface Bookings extends Document {
   bookedTimeSlotsTo: [];
   rentPerHour: string;
   capacity: string;
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   address: string;
   city: string;
   img?: string;

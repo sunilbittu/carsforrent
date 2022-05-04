@@ -90,3 +90,14 @@ export interface BookingResponse {
   status: number;
   email: string;
 }
+
+export interface SearchRequest extends IDates, SelectedLocation {}
+
+export interface IAddress {
+  address: string;
+  city: string;
+}
+
+export interface SearchResponse extends CarResponse {
+  carDetails: [];
+}

@@ -145,6 +145,7 @@ const user_module_1 = __webpack_require__(/*! ./user/user.module */ "./apps/api/
 const cars_module_1 = __webpack_require__(/*! ./cars/cars.module */ "./apps/api/src/app/cars/cars.module.ts");
 const geolocation_module_1 = __webpack_require__(/*! ./geolocation/geolocation.module */ "./apps/api/src/app/geolocation/geolocation.module.ts");
 const bookings_module_1 = __webpack_require__(/*! ./booking/bookings.module */ "./apps/api/src/app/booking/bookings.module.ts");
+const search_module_1 = __webpack_require__(/*! ./search/search.module */ "./apps/api/src/app/search/search.module.ts");
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
@@ -157,12 +158,13 @@ AppModule = tslib_1.__decorate([
                 rootPath: path_1.join(__dirname, '..', 'carsforrent'),
                 exclude: ['/api*'],
             }),
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.irozl.mongodb.net/carsrent?retryWrites=true&w=majority', { useNewUrlParser: true }),
+            mongoose_1.MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.irozl.mongodb.net/carsrent?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }),
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             geolocation_module_1.GeolocationModule,
             cars_module_1.CarsModule,
             bookings_module_1.BookingsModule,
+            search_module_1.SearchModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
@@ -545,6 +547,7 @@ exports.BookingsService = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const moment = __webpack_require__(/*! moment */ "moment");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 let BookingsService = class BookingsService {
     constructor(bookingModel) {
@@ -552,7 +555,8 @@ let BookingsService = class BookingsService {
     }
     create(bookingDetails) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const booking = new this.bookingModel(bookingDetails);
+            const request = Object.assign(Object.assign({}, bookingDetails), { start: new Date(moment(bookingDetails.start).format('YYYY-MM-DD')), end: new Date(moment(moment(bookingDetails.end)).format('YYYY-MM-DD')) });
+            const booking = new this.bookingModel(request);
             yield booking.save();
             return booking;
         });
@@ -1142,8 +1146,8 @@ exports.BookingsSchema = new mongoose.Schema({
     bookedTimeSlotsTo: { type: [], required: true },
     rentPerHour: { type: String, required: true },
     capacity: { type: String, required: true },
-    start: { type: String, required: true },
-    end: { type: String, required: true },
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
     img: { type: String, required: false },
@@ -1226,6 +1230,154 @@ exports.UserSchema.pre('save', function (next) {
         }
     });
 });
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/search/search.controller.ts":
+/*!******************************************************!*\
+  !*** ./apps/api/src/app/search/search.controller.ts ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a, _b;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SearchController = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const search_dto_1 = __webpack_require__(/*! ./search.dto */ "./apps/api/src/app/search/search.dto.ts");
+const search_service_1 = __webpack_require__(/*! ./search.service */ "./apps/api/src/app/search/search.service.ts");
+let SearchController = class SearchController {
+    constructor(searchService) {
+        this.searchService = searchService;
+    }
+    getAllAvailableCars(searchDetails) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const carDetails = yield this.searchService.getAvailability(searchDetails);
+            return {
+                carDetails,
+                message: carDetails.length ? 'Cars available' : 'No cars available',
+                status: 200,
+            };
+        });
+    }
+};
+tslib_1.__decorate([
+    common_1.Post('availablecars'),
+    tslib_1.__param(0, common_1.Body()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof search_dto_1.SearchDetailsDTO !== "undefined" && search_dto_1.SearchDetailsDTO) === "function" ? _a : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], SearchController.prototype, "getAllAvailableCars", null);
+SearchController = tslib_1.__decorate([
+    common_1.Controller('cars'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof search_service_1.SearchService !== "undefined" && search_service_1.SearchService) === "function" ? _b : Object])
+], SearchController);
+exports.SearchController = SearchController;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/search/search.dto.ts":
+/*!***********************************************!*\
+  !*** ./apps/api/src/app/search/search.dto.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/search/search.module.ts":
+/*!**************************************************!*\
+  !*** ./apps/api/src/app/search/search.module.ts ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SearchModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const search_service_1 = __webpack_require__(/*! ./search.service */ "./apps/api/src/app/search/search.service.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const cars_schema_1 = __webpack_require__(/*! ../models/cars.schema */ "./apps/api/src/app/models/cars.schema.ts");
+const search_controller_1 = __webpack_require__(/*! ./search.controller */ "./apps/api/src/app/search/search.controller.ts");
+const bookings_schema_1 = __webpack_require__(/*! ../models/bookings.schema */ "./apps/api/src/app/models/bookings.schema.ts");
+let SearchModule = class SearchModule {
+};
+SearchModule = tslib_1.__decorate([
+    common_1.Module({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: 'BookingDetails', schema: bookings_schema_1.BookingsSchema },
+                { name: 'CarDetails', schema: cars_schema_1.CarSchema },]),
+        ],
+        providers: [search_service_1.SearchService],
+        controllers: [search_controller_1.SearchController],
+        exports: [search_service_1.SearchService],
+    })
+], SearchModule);
+exports.SearchModule = SearchModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/src/app/search/search.service.ts":
+/*!***************************************************!*\
+  !*** ./apps/api/src/app/search/search.service.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a, _b;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SearchService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const moment = __webpack_require__(/*! moment */ "moment");
+let SearchService = class SearchService {
+    constructor(bookingsModel, carsModel) {
+        this.bookingsModel = bookingsModel;
+        this.carsModel = carsModel;
+    }
+    getAvailability(details) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const { start, end } = details;
+            let formattedStartDate = new Date(moment(start).toDate().toISOString());
+            const formattedEndDate = new Date(moment(end).hours(23).minutes(59).seconds(59).toDate().toISOString());
+            const bookings = yield this.bookingsModel.find();
+            const carsList = yield this.carsModel.find();
+            const dates = [];
+            while (moment(formattedStartDate) <= moment(formattedEndDate)) {
+                dates.push(moment(formattedStartDate).format('YYYY-MM-DD'));
+                formattedStartDate = moment(formattedStartDate).add(1, 'days').toDate();
+            }
+            const filterBooking = bookings.filter(booking => dates.includes(moment(booking.start).format('YYYY-MM-DD')) && dates.includes(moment(booking.end).format('YYYY-MM-DD')));
+            const filterCar = carsList.filter(car => filterBooking.every(booking => booking.id !== car.id));
+            return filterCar;
+        });
+    }
+};
+SearchService = tslib_1.__decorate([
+    common_1.Injectable(),
+    tslib_1.__param(0, mongoose_1.InjectModel('BookingDetails')),
+    tslib_1.__param(1, mongoose_1.InjectModel('CarDetails')),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _b : Object])
+], SearchService);
+exports.SearchService = SearchService;
 
 
 /***/ }),
@@ -1489,6 +1641,17 @@ module.exports = require("bcrypt");
 /***/ (function(module, exports) {
 
 module.exports = require("jsonwebtoken");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("moment");
 
 /***/ }),
 
