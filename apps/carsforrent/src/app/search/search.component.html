@@ -1,7 +1,6 @@
 <section fxLayout="column" fxFlexAlign="stretch" class="searchBlock">
   <div fxFlexAlign="center">
-    <p>Search your country/city</p>
-    <div class="autocomplete-container" [ngStyle]="{ 'min-width.px': 400 }">
+    <div class="autocomplete-container">
       <mat-google-maps-autocomplete
         [appearance]="appearance.OUTLINE"
         country="uk"
@@ -11,7 +10,6 @@
       </mat-google-maps-autocomplete>
     </div>
     <div class="mb-2">
-      <label class="label">Select Date</label>
       <mat-form-field appearance="fill">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input

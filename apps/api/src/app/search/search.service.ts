@@ -22,7 +22,7 @@ export class SearchService {
       dates.push(moment(formattedStartDate).format('YYYY-MM-DD'));
       formattedStartDate = moment(formattedStartDate).add(1, 'days').toDate();
     }
-    const filterBooking = bookings.filter(booking => dates.includes(moment(booking.start).format('YYYY-MM-DD')) && dates.includes(moment(booking.end).format('YYYY-MM-DD')));
+    const filterBooking = bookings.filter(booking => dates.includes(moment(booking.start).format('YYYY-MM-DD')) || dates.includes(moment(booking.end).format('YYYY-MM-DD')));
     const filterCar = carsList.filter(car => filterBooking.every(booking => booking.id !== car.id));
 
     return filterCar
