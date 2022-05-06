@@ -48,6 +48,7 @@ import {
 } from './reducers/search.reducer';
 import { DateformatterPipe } from './dateformatter.pipe';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { FooterComponent } from './footer/footer.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -78,6 +79,7 @@ export function tokenGetter() {
     FailuerComponent,
     DateformatterPipe,
     AccessDeniedComponent,
+    FooterComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
